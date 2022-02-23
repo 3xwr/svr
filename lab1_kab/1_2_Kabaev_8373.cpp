@@ -1,69 +1,71 @@
 /*
-* Выполнил: Тетерин Дмитрий, 8373
+* Выполнил: Кабаев Роман, 8373
 * Задание: 1_2. «Поставщик – Потребитель» (v.3.1)
 * Дата выполнения: 23.02.2022
 * Скрипт для компиляции и запуска программы:
-* gcc -pthread 1_2_Teterin_8373.с 
+* g++ -pthread 1_2_Kabaev_8373.сpp
 * ./a.out
 */
 // ------------------------------------------- // 
 /*
  * Общее описание программы:
- *      Данная программа реализует паттерн Поставщик – Потребитель с использованием двух потоков.
- *      Для синхронизации между потребителем и поставщиком используются условные переменные и мьютексы..
- *      Полный буфер здесь - буфер со значением 10.
- *      Для ограничения записи/доступа к полному/пустому буфферу используются условные переменные.
- *      Одновременная работа в критической области не допускатеся.
+ *      Эта программа синхронизует потребителя и поставщика с помощью условных переменных и мьютексов.
+ *      Буфер заполняется при значении 3, считается пустым при значении 0.
  */
 // ------------------------------------------- //
-#include <stdio.h>
-#include <stdbool.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <semaphore.h>
 #include <time.h>
+#include <iostream>
 
-#define TIME_1 2
-#define TIME_2 1
 
 #define EXIT_SUCCESS 0
+#define TIME_1 3
+#define TIME_2 1
 
 int Buffer = 0;
 
+time_t tm;
+
 pthread_cond_t cond;
 pthread_mutex_t mutex;
-time_t t;
 
-void* Consumer(void* args) {
-    while(true) {
+void* Consumer(void* args) 
+{
+    while(true) 
+    {
         pthread_mutex_lock(&mutex);
-        time(&t);
-        if(Buffer <= 0) {
-            pthread_cond_wait(&cond, &mutex); /* Проверяем условие и ожидаем условную переменную */
+        time(&tm);
+        if(Buffer <= 0) 
+        {
+            pthread_cond_wait(&cond, &mutex); //Ожидаем не пустого буффера
         }
-        printf("time at consume start: %ld\n", t);
+        std::cout << "Время в начале потребления " << ctime(&tm);
         Buffer--;
-        printf("Buffer = %d\n", Buffer);
-        printf("time at consume end: %ld\n", t);
-        pthread_cond_signal(&cond); /* Даем сигнал условной переменной после критического участка */
+        std::cout << "Значение буффера " << Buffer << std::endl;
+        std::cout << "Время в конце потребления " << ctime(&tm) << std::endl;
+        pthread_cond_signal(&cond); //Даем сигнал переменной
         pthread_mutex_unlock(&mutex);
         sleep(TIME_1);
     };
     return EXIT_SUCCESS;
 }
 
-void* Supplier(void* args) {
-    while(true) {  
+void* Supplier(void* args) 
+{
+    while(true) 
+    {  
         pthread_mutex_lock(&mutex);
-        time(&t); 
-        if(Buffer >= 10) {
-            pthread_cond_wait(&cond, &mutex); /* Проверяем условие и ожидаем условную переменную */
+        time(&tm); 
+        if(Buffer >= 3) 
+        {
+            pthread_cond_wait(&cond, &mutex); //Ожидаем не полного буффера
         } 
-        printf("time at supply start: %ld\n", t);
+        std::cout << "Время в начале поступления " << ctime(&tm);
         Buffer++;
-        printf("Buffer = %d\n", Buffer);
-        printf("time at supply end: %ld\n", t);
-        pthread_cond_signal(&cond); /* Даем сигнал условной переменной после критического участка */
+        std::cout << "Значение буффера " << Buffer << std::endl;
+        std::cout << "Время в конце поступления " << ctime(&tm) << std::endl;
+        pthread_cond_signal(&cond); //Даем сигнал переменной
         pthread_mutex_unlock(&mutex);
         sleep(TIME_2);
     };
@@ -82,123 +84,39 @@ int main(int argc, char* argv[]) {
 }
 // ------------------------------------------- //
 /*
-time at supply start: 1645643517
-Buffer = 1
-time at supply end: 1645643517
-time at consume start: 1645643517
-Buffer = 0
-time at consume end: 1645643517
-time at supply start: 1645643518
-Buffer = 1
-time at supply end: 1645643518
-time at consume start: 1645643519
-Buffer = 0
-time at consume end: 1645643519
-time at supply start: 1645643519
-Buffer = 1
-time at supply end: 1645643519
-time at supply start: 1645643520
-Buffer = 2
-time at supply end: 1645643520
-time at consume start: 1645643521
-Buffer = 1
-time at consume end: 1645643521
-time at supply start: 1645643521
-Buffer = 2
-time at supply end: 1645643521
-time at supply start: 1645643522
-Buffer = 3
-time at supply end: 1645643522
-time at consume start: 1645643523
-Buffer = 2
-time at consume end: 1645643523
-time at supply start: 1645643523
-Buffer = 3
-time at supply end: 1645643523
-time at supply start: 1645643524
-Buffer = 4
-time at supply end: 1645643524
-time at consume start: 1645643525
-Buffer = 3
-time at consume end: 1645643525
-time at supply start: 1645643525
-Buffer = 4
-time at supply end: 1645643525
-time at supply start: 1645643526
-Buffer = 5
-time at supply end: 1645643526
-time at consume start: 1645643527
-Buffer = 4
-time at consume end: 1645643527
-time at supply start: 1645643527
-Buffer = 5
-time at supply end: 1645643527
-time at supply start: 1645643528
-Buffer = 6
-time at supply end: 1645643528
-time at consume start: 1645643529
-Buffer = 5
-time at consume end: 1645643529
-time at supply start: 1645643529
-Buffer = 6
-time at supply end: 1645643529
-time at supply start: 1645643530
-Buffer = 7
-time at supply end: 1645643530
-time at consume start: 1645643531
-Buffer = 6
-time at consume end: 1645643531
-time at supply start: 1645643531
-Buffer = 7
-time at supply end: 1645643531
-time at supply start: 1645643532
-Buffer = 8
-time at supply end: 1645643532
-time at consume start: 1645643533
-Buffer = 7
-time at consume end: 1645643533
-time at supply start: 1645643533
-Buffer = 8
-time at supply end: 1645643533
-time at supply start: 1645643534
-Buffer = 9
-time at supply end: 1645643534
-time at consume start: 1645643535
-Buffer = 8
-time at consume end: 1645643535
-time at supply start: 1645643535
-Buffer = 9
-time at supply end: 1645643535
-time at supply start: 1645643536
-Buffer = 10
-time at supply end: 1645643536
-time at consume start: 1645643537
-Buffer = 9
-time at consume end: 1645643537
-time at supply start: 1645643537
-Buffer = 10
-time at supply end: 1645643537
-time at consume start: 1645643539
-Buffer = 9
-time at consume end: 1645643539
-time at supply start: 1645643539
-Buffer = 10
-time at supply end: 1645643539
-time at consume start: 1645643541
-Buffer = 9
-time at consume end: 1645643541
-time at supply start: 1645643541
-Buffer = 10
-time at supply end: 1645643541
-time at consume start: 1645643543
-Buffer = 9
-time at consume end: 1645643543
-time at supply start: 1645643543
-Buffer = 10
-time at supply end: 1645643543
-time at consume start: 1645643545
-Buffer = 9
-time at consume end: 1645643545
-time at supply start: 1645643545
-Buffer = 10
+Время в начале поступления Wed Feb 23 23:07:36 2022
+Значение буффера 1
+Время в конце поступления Wed Feb 23 23:07:36 2022
+
+Время в начале потребления Wed Feb 23 23:07:36 2022
+Значение буффера 0
+Время в конце потребления Wed Feb 23 23:07:36 2022
+
+Время в начале поступления Wed Feb 23 23:07:37 2022
+Значение буффера 1
+Время в конце поступления Wed Feb 23 23:07:37 2022
+
+Время в начале поступления Wed Feb 23 23:07:38 2022
+Значение буффера 2
+Время в конце поступления Wed Feb 23 23:07:38 2022
+
+Время в начале потребления Wed Feb 23 23:07:39 2022
+Значение буффера 1
+Время в конце потребления Wed Feb 23 23:07:39 2022
+
+Время в начале поступления Wed Feb 23 23:07:39 2022
+Значение буффера 2
+Время в конце поступления Wed Feb 23 23:07:39 2022
+
+Время в начале поступления Wed Feb 23 23:07:40 2022
+Значение буффера 3
+Время в конце поступления Wed Feb 23 23:07:40 2022
+
+Время в начале потребления Wed Feb 23 23:07:42 2022
+Значение буффера 2
+Время в конце потребления Wed Feb 23 23:07:42 2022
+
+Время в начале поступления Wed Feb 23 23:07:42 2022
+Значение буффера 3
+Время в конце поступления Wed Feb 23 23:07:42 2022
 */
