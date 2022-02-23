@@ -82,106 +82,123 @@ int main(int argc, char* argv[]) {
 }
 // ------------------------------------------- //
 /*
-time at supply start: 1645644930
+time at supply start: 1645643517
 Buffer = 1
-time at supply end: 1645644930
-time at consume start: 1645644930
+time at supply end: 1645643517
+time at consume start: 1645643517
 Buffer = 0
-time at consume end: 1645644930
-time at supply start: 1645644931
+time at consume end: 1645643517
+time at supply start: 1645643518
 Buffer = 1
-time at supply end: 1645644931
-time at consume start: 1645644932
+time at supply end: 1645643518
+time at consume start: 1645643519
 Buffer = 0
-time at consume end: 1645644932
-time at supply start: 1645644932
+time at consume end: 1645643519
+time at supply start: 1645643519
 Buffer = 1
-time at supply end: 1645644932
-time at supply start: 1645644933
+time at supply end: 1645643519
+time at supply start: 1645643520
 Buffer = 2
-time at supply end: 1645644933
-time at consume start: 1645644934
+time at supply end: 1645643520
+time at consume start: 1645643521
 Buffer = 1
-time at consume end: 1645644934
-time at supply start: 1645644934
+time at consume end: 1645643521
+time at supply start: 1645643521
 Buffer = 2
-time at supply end: 1645644934
-time at supply start: 1645644935
+time at supply end: 1645643521
+time at supply start: 1645643522
 Buffer = 3
-time at supply end: 1645644935
-time at consume start: 1645644936
+time at supply end: 1645643522
+time at consume start: 1645643523
 Buffer = 2
-time at consume end: 1645644936
-time at supply start: 1645644936
+time at consume end: 1645643523
+time at supply start: 1645643523
 Buffer = 3
-time at supply end: 1645644936
-time at supply start: 1645644937
+time at supply end: 1645643523
+time at supply start: 1645643524
 Buffer = 4
-time at supply end: 1645644937
-time at consume start: 1645644938
+time at supply end: 1645643524
+time at consume start: 1645643525
 Buffer = 3
-time at consume end: 1645644938
-time at supply start: 1645644938
+time at consume end: 1645643525
+time at supply start: 1645643525
 Buffer = 4
-time at supply end: 1645644938
-time at supply start: 1645644939
+time at supply end: 1645643525
+time at supply start: 1645643526
 Buffer = 5
-time at supply end: 1645644939
-time at consume start: 1645644940
+time at supply end: 1645643526
+time at consume start: 1645643527
 Buffer = 4
-time at consume end: 1645644940
-time at supply start: 1645644940
+time at consume end: 1645643527
+time at supply start: 1645643527
 Buffer = 5
-time at supply end: 1645644940
-time at supply start: 1645644941
+time at supply end: 1645643527
+time at supply start: 1645643528
 Buffer = 6
-time at supply end: 1645644941
-time at consume start: 1645644942
+time at supply end: 1645643528
+time at consume start: 1645643529
 Buffer = 5
-time at consume end: 1645644942
-time at supply start: 1645644942
+time at consume end: 1645643529
+time at supply start: 1645643529
 Buffer = 6
-time at supply end: 1645644942
-time at supply start: 1645644943
+time at supply end: 1645643529
+time at supply start: 1645643530
 Buffer = 7
-time at supply end: 1645644943
-time at consume start: 1645644944
+time at supply end: 1645643530
+time at consume start: 1645643531
 Buffer = 6
-time at consume end: 1645644944
-time at supply start: 1645644944
+time at consume end: 1645643531
+time at supply start: 1645643531
 Buffer = 7
-time at supply end: 1645644944
-time at supply start: 1645644945
+time at supply end: 1645643531
+time at supply start: 1645643532
 Buffer = 8
-time at supply end: 1645644945
-time at consume start: 1645644946
+time at supply end: 1645643532
+time at consume start: 1645643533
 Buffer = 7
-time at consume end: 1645644946
-time at supply start: 1645644946
+time at consume end: 1645643533
+time at supply start: 1645643533
 Buffer = 8
-time at supply end: 1645644946
-time at supply start: 1645644947
+time at supply end: 1645643533
+time at supply start: 1645643534
 Buffer = 9
-time at supply end: 1645644947
-time at consume start: 1645644948
+time at supply end: 1645643534
+time at consume start: 1645643535
 Buffer = 8
-time at consume end: 1645644948
-time at supply start: 1645644948
+time at consume end: 1645643535
+time at supply start: 1645643535
 Buffer = 9
-time at supply end: 1645644948
-time at supply start: 1645644949
+time at supply end: 1645643535
+time at supply start: 1645643536
 Buffer = 10
-time at supply end: 1645644949
-time at consume start: 1645644950
+time at supply end: 1645643536
+time at consume start: 1645643537
 Buffer = 9
-time at consume end: 1645644950
-time at supply start: 1645644950
+time at consume end: 1645643537
+time at supply start: 1645643537
 Buffer = 10
-time at supply end: 1645644950
-time at consume start: 1645644952
+time at supply end: 1645643537
+time at consume start: 1645643539
 Buffer = 9
-time at consume end: 1645644952
-time at supply start: 1645644952
+time at consume end: 1645643539
+time at supply start: 1645643539
 Buffer = 10
-time at supply end: 1645644952
+time at supply end: 1645643539
+time at consume start: 1645643541
+Buffer = 9
+time at consume end: 1645643541
+time at supply start: 1645643541
+Buffer = 10
+time at supply end: 1645643541
+time at consume start: 1645643543
+Buffer = 9
+time at consume end: 1645643543
+time at supply start: 1645643543
+Buffer = 10
+time at supply end: 1645643543
+time at consume start: 1645643545
+Buffer = 9
+time at consume end: 1645643545
+time at supply start: 1645643545
+Buffer = 10
 */
