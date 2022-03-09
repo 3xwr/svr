@@ -26,7 +26,7 @@ void catch_up(int signo) {
     printf("up signal with #%d\n", signo);
 }
 
-void catch_down(int signo) {
+void catch_down(int signo, siginfo_t* info, void* context) {
     printf("down signal with #%d\n", signo);
 }
 
@@ -45,9 +45,9 @@ void *push_button(void *args)
     act.sa_flags = SA_SIGINFO;
     act.sa_mask = set->set;
     sigaction(Up, &act, NULL);
-    sigprocmask(SIG_UNBLOCK, &set->set, NULL);
-    actdown.sa_handler = &catch_down;
-    actdown.sa_flags = 0;
+    // sigprocmask(SIG_UNBLOCK, &set->set, NULL);
+    actdown.sa_sigaction = &catch_down;
+    actdown.sa_flags = SA_SIGINFO;
     actdown.sa_mask = set->set;
     sigaction(Down, &actdown, NULL);
     pid_t pid = getpid();
@@ -67,7 +67,10 @@ void *push_button(void *args)
         }
         case 'd':
         {
-            raise(Down);
+            siginfo_t info;
+            info.si_value.sival_int = 223;
+            int val = sigqueue(pid,Down, info.si_value);
+            printf("pid:%d, val:%d, err:%d\n",pid,val,errno);
             printf("PUSH DOWN BUTTON\n");
         break;
         }
