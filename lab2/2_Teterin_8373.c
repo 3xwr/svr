@@ -50,6 +50,7 @@ void *push_button(void *args)
     actdown.sa_flags = 0;
     actdown.sa_mask = set->set;
     sigaction(Down, &actdown, NULL);
+    pid_t pid = getpid();
     while (ch != 'q')
     {
         ch = getchar();
@@ -59,8 +60,8 @@ void *push_button(void *args)
         {
             siginfo_t info;
             info.si_value.sival_int = 222;
-            sigqueue(0,Up, info.si_value);
-            printf("%d",errno);
+            int val = sigqueue(pid,Up, info.si_value);
+            printf("pid:%d, val:%d, err:%d\n",pid,val,errno);
             printf("PUSH UP BUTTON\n");
         break;
         }
