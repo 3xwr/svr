@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/time.h>
 
 #define DEADLINE 52000
 #define SOFT_DT 54000
@@ -28,20 +29,27 @@
 
 #define UNUSED(x) (void)(x)
 
-// void doControl_500() {
-//     printf("Procedure #1, call time %f ms, time since last call %f ms.");
-// }
+struct timeval t1_prev;
+struct timeval t2_prev;
+struct timeval t3_prev;
 
-// void doControl_750() {
-//     printf("Procedure #2, call time %f ms, time since last call %f ms.");
-// }
 
-// void doControl_1000() {
-//     printf("Procedure #3, call time %f ms, time since last call %f ms.");
-// }
+void doControl_1() {
+    if (t1_prev.tv_sec == -1) {
+        gettimeofday(&t1_prev, NULL);
+    }
+    long long prev_ms = t1_prev.tv_sec*1000LL + t1_prev.tv_usec/1000;
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+    long long curr_ms = current_time.tv_sec*1000LL + current_time.tv_usec/1000;
+    long long diff = curr_ms-prev_ms;
+    if (diff == 0) {
+        printf("Procedure #1 call time: %lld ms, called for the first time\n", curr_ms);
+    } else {
+        printf("Procedure #1 call time: %lld ms, time since last call: %lld ms\n", curr_ms, diff);
+    }
 
-void test() {
-    printf("TEST");
+    gettimeofday(&t1_prev, NULL);
 }
 
 void alarmHandler() {
@@ -52,33 +60,26 @@ void *doStuff() {
 
 int main(int argc, char *argv[])
 {
+    t1_prev.tv_sec = -1;
+    t2_prev.tv_sec = -1;
+    t3_prev.tv_sec = -1;
+    
     struct sigevent event;
     struct itimerspec itime;
     timer_t timer_id;
 
-    sigset_t set;
-    pthread_t t;
-
-
-
     struct sigaction act;
 
-    memset(&act,0,sizeof(struct sigaction));
-    act.sa_handler = test;
     act.sa_flags = SA_SIGINFO;
-    act.sa_sigaction = test;
+    act.sa_sigaction = doControl_1;
 
     sigemptyset(&act.sa_mask);
 
-
-    memset(&event, 0, sizeof(struct sigevent));
     event.sigev_notify = SIGEV_SIGNAL;
     event.sigev_signo = MY_SIGNAL;
 
-
     int ret = timer_create(CLOCK_REALTIME, &event, &timer_id);
 
-    memset(&itime,0,sizeof(struct timespec));
     itime.it_value.tv_sec = 1;
     itime.it_value.tv_nsec = 0;
     itime.it_interval.tv_sec = 1;
